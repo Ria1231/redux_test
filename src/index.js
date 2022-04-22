@@ -3,12 +3,31 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import { createStore, applyMiddelWare } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import rootReducer from './reducers';
+import { fetchBooks } from './actions/book.actions.js';
+
+const store  = createStore(rootReducer,applyMiddelWare(thunk));
+store.dispatch(fetchBooks());
+
+
+export const history = createBrowserHistory({forceRefresh:true});
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+
+  <Provider store={store}>
+  <Router>
     <App />
-  </React.StrictMode>
+  </Router>
+  </Provider>
+    
+  
 );
 
 // If you want to start measuring performance in your app, pass a function
